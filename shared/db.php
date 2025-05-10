@@ -8,9 +8,9 @@
 
 // Database configuration
 $db_host = 'localhost';
-$db_name = 'backsure_admin';
-$db_user = 'db_user'; // Replace with actual database user
-$db_pass = 'db_pass'; // Replace with actual database password
+$db_name = 'backzvsg_crm';
+$db_user = 'backzvsg_crm_access'; // Replace with actual database user
+$db_pass = 'zwciD6$t;W0&'; // Replace with actual database password
 $db_charset = 'utf8mb4';
 
 // Connection options
