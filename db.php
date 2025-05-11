@@ -6,9 +6,9 @@
 
 // Database credentials - UPDATED to fix authentication issue
 $db_host = 'localhost';
-$db_name = 'backzvsg_playground';
-$db_user = 'backzvsg_site';
-$db_pass = 'AecufM0dRd9WK7r'; // Use the actual password you created with MySQL
+$db_name = 'backzvsg_crm_access';
+$db_user = 'backzvsg_crm';
+$db_pass = 'zwciD6$t;W0&'; // Use the actual password you created with MySQL
 $db_charset = 'utf8mb4';
 
 // Legacy variables for backward compatibility
