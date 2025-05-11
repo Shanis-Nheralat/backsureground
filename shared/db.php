@@ -8,7 +8,7 @@
 
 // Database configuration
 $db_host = 'localhost';
-$db_name = 'backzvsg_crm';
+$db_name = 'backzvsg_crm';  // or your actual DB where `users` table exists
 $db_user = 'backzvsg_crm_access'; // Replace with actual database user
 $db_pass = 'zwciD6$t;W0&'; // Replace with actual database password
 $db_charset = 'utf8mb4';
