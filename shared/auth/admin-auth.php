@@ -227,22 +227,18 @@ function redirect_to_dashboard() {
  * @param string $resource Resource affected
  * @param int $resource_id Resource ID
  */
-function log_action($action_type, $details, $resource = null, $resource_id = null) {
+function log_action($action_type, $details) {
     $data = [
         'action_type' => $action_type,
         'action_details' => $details,
         'ip_address' => $_SERVER['REMOTE_ADDR'],
-        'resource' => $resource,
-        'resource_id' => $resource_id
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null
     ];
-    
-    // Add user info if logged in
+
     if (is_logged_in()) {
-        $data['user_id'] = $_SESSION['user_id'];
-        $data['username'] = $_SESSION['username'];
+        $data['admin_id'] = $_SESSION['user_id'];
     }
-    
-    // Insert into activity log
+
     db_insert('admin_activity_log', $data);
 }
 
