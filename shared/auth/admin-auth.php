@@ -230,7 +230,7 @@ function redirect_to_dashboard() {
 function log_action($action_type, $details, $resource = null, $resource_id = null) {
     $data = [
         'action_type' => $action_type,
-        'details' => $details,
+        'action_details' => $details,
         'ip_address' => $_SERVER['REMOTE_ADDR'],
         'resource' => $resource,
         'resource_id' => $resource_id
