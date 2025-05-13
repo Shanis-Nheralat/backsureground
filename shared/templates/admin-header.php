@@ -117,6 +117,55 @@ $active_page = $active_page ?? '';
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
             margin-bottom: 20px;
         }
+        
+        /* Notification Styles */
+        .notification-dropdown {
+            width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item.unread {
+            background-color: #f8f9fa;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Badge position on bell icon */
+        .nav-link .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.6rem;
+        }
     </style>
 </head>
 <body>
@@ -131,23 +180,29 @@ $active_page = $active_page ?? '';
         
         <!-- Navbar Right Items -->
         <div class="navbar-nav">
-            <div class="nav-item text-nowrap dropdown user-dropdown">
-                <a class="nav-link px-3 dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Profile</a></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <form action="/logout.php" method="post" id="logout-form">
-                            <?php echo csrf_field(); ?>
-                            <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
-                                <i class="bi bi-box-arrow-right"></i> Logout
-                            </a>
-                        </form>
-                    </li>
-                </ul>
+            <div class="nav-item text-nowrap d-flex align-items-center">
+                <!-- Notifications Dropdown -->
+                <?php include_once __DIR__ . '/notifications-dropdown.php'; ?>
+                
+                <!-- User Dropdown -->
+                <div class="dropdown user-dropdown ms-3">
+                    <a class="nav-link px-3 dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($_SESSION['user_name']); ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="/logout.php" method="post" id="logout-form">
+                                <?php echo csrf_field(); ?>
+                                <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit(); return false;">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
