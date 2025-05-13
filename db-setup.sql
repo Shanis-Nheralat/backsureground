@@ -1,6 +1,6 @@
 -- Create database if not exists
-CREATE DATABASE IF NOT EXISTS backsure_admin;
-USE backsure_admin;
+CREATE DATABASE IF NOT EXISTS backzvsg_crm;
+USE backzvsg_crm;
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (
