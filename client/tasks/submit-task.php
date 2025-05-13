@@ -8,6 +8,7 @@ require_once '../../shared/db.php';
 require_once '../../shared/auth/admin-auth.php';
 require_once '../../shared/tasks/task-functions.php';
 require_once '../../shared/utils/notifications.php';
+require_once '../../shared/events/email-events.php';
 
 // Ensure client is logged in and has the client role
 require_admin_auth();
@@ -15,6 +16,7 @@ require_admin_role(['client']);
 
 // Current user info
 $client_id = $_SESSION['admin_user_id'];
+$client_name = $_SESSION['user_name'] ?? 'Client';
 
 // Page variables
 $page_title = 'Submit New Task';
@@ -31,7 +33,7 @@ $submission_result = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CSRF check
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        set_notification('error', 'Invalid form submission. Please try again.');
+        set_flash_notification('error', 'Invalid form submission. Please try again.');
     } else {
         // Validate required fields
         $title = trim($_POST['title'] ?? '');
@@ -64,12 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $form_submitted = true;
                 
                 // Process file uploads if present
+                $file_count = 0;
                 if (!empty($_FILES['task_files']['name'][0])) {
                     $file_count = count($_FILES['task_files']['name']);
                     
                     // Check if not exceeding max file count (5)
                     if ($file_count > 5) {
-                        set_notification('warning', 'Only the first 5 files were processed.');
+                        set_flash_notification('warning', 'Only the first 5 files were processed.');
                         $file_count = 5;
                     }
                     
@@ -95,26 +98,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($result['success']) {
                             $upload_success++;
                         } else {
-                            set_notification('error', 'File upload error: ' . $result['message']);
+                            set_flash_notification('error', 'File upload error: ' . $result['message']);
                         }
                     }
                     
                     if ($upload_success > 0) {
-                        set_notification('success', $upload_success . ' file(s) uploaded successfully.');
+                        set_flash_notification('success', $upload_success . ' file(s) uploaded successfully.');
                     }
                 }
                 
-                set_notification('success', 'Your task has been submitted successfully. We will process it shortly.');
+                // Add notification for admin
+                $admins = get_admins(); // Function to get all admin users
+                foreach ($admins as $admin) {
+                    add_notification(
+                        $admin['id'],
+                        'admin',
+                        'info',
+                        'New Task Submitted',
+                        'Client ' . $client_name . ' has submitted a new task: ' . $title,
+                        '/admin/tasks/manage-tasks.php?task_id=' . $task_id,
+                        ['task_id' => $task_id, 'client_id' => $client_id]
+                    );
+                }
+                
+                // Send email notification to admins
+                foreach ($admins as $admin) {
+                    trigger_email_event(
+                        'task_submitted',
+                        [
+                            'title' => 'New Task Submitted',
+                            'admin_name' => $admin['name'],
+                            'client_name' => $client_name,
+                            'task_title' => $title,
+                            'task_priority' => $priority,
+                            'task_deadline' => $deadline ?? 'Not specified',
+                            'task_description' => $description,
+                            'file_count' => $file_count,
+                            'task_url' => 'https://' . $_SERVER['HTTP_HOST'] . '/admin/tasks/manage-tasks.php?task_id=' . $task_id
+                        ],
+                        $admin['email'],
+                        $admin['name']
+                    );
+                }
+                
+                set_flash_notification('success', 'Your task has been submitted successfully. We will process it shortly.');
                 
                 // Redirect to avoid form resubmission
                 header('Location: history.php');
                 exit;
             } else {
-                set_notification('error', 'Failed to create task. Please try again.');
+                set_flash_notification('error', 'Failed to create task. Please try again.');
             }
         } else {
             foreach ($errors as $error) {
-                set_notification('error', $error);
+                set_flash_notification('error', $error);
             }
         }
     }
@@ -137,7 +174,7 @@ include '../../shared/templates/client-header.php';
             <h1 class="h3 mb-0"><?php echo $page_title; ?></h1>
         </div>
         
-        <?php display_notifications(); ?>
+        <?php display_flash_notifications(); ?>
         
         <div class="card shadow mb-4">
             <div class="card-header py-3">
