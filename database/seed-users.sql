@@ -11,6 +11,15 @@ VALUES
     NOW()
   ),
   (
+    'admin',
+    'shani@backsureglobalsupport.com',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',  -- password
+    'Admin',
+    'admin',
+    'active',
+    NOW()
+  ),
+  (
     'superadmin',
     'super@backsureglobalsupport.com',
     '$2y$10$V9dp94iCrxkULYT6YlxiHeMKttFbZVXwRxU8vlZTKJY/hkT78DNrm',  -- Super@123
