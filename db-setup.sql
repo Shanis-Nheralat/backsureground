@@ -104,6 +104,6 @@ INSERT INTO role_permissions (role_id, permission_id)
 SELECT r.id, p.id FROM roles r, permissions p
 WHERE r.name = 'employee' AND p.name IN ('view_dashboard', 'manage_tasks', 'manage_time', 'manage_support');
 
--- Create default admin user (password: Admin@123)
+-- Create default admin user (password: admin123)
 INSERT INTO users (username, password, email, name, role) VALUES
-('shanisbsg', '$2y$10$mhMnb9OEd/gclyBE3s1jQuZC4Fdb5NxiM0Ee8DwR8nkZz7uzKWU.C', 'shanis@backsureglobalsupport.com', 'Admin User', 'shanisbsg');
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@backsureglobalsupport.com', 'Admin User', 'admin');
