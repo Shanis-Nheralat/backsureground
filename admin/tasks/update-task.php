@@ -10,6 +10,7 @@ require_once '../../shared/db.php';
 require_once '../../shared/auth/admin-auth.php';
 require_once '../../shared/tasks/task-functions.php';
 require_once '../../shared/utils/notifications.php';
+require_once '../../shared/events/email-events.php';
 
 // Authentication check
 require_admin_auth();
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // CSRF check
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    set_notification('error', 'Invalid form submission. Please try again.');
+    set_flash_notification('error', 'Invalid form submission. Please try again.');
     header('Location: manage-tasks.php');
     exit;
 }
@@ -36,7 +37,7 @@ $remarks = $_POST['remarks'] ?? '';
 
 // Validate data
 if (!$task_id || !in_array($status, ['submitted', 'in_progress', 'completed', 'cancelled'])) {
-    set_notification('error', 'Invalid task data.');
+    set_flash_notification('error', 'Invalid task data.');
     header('Location: manage-tasks.php');
     exit;
 }
@@ -44,10 +45,15 @@ if (!$task_id || !in_array($status, ['submitted', 'in_progress', 'completed', 'c
 // Get original task
 $original_task = get_task($task_id);
 if (!$original_task) {
-    set_notification('error', 'Task not found.');
+    set_flash_notification('error', 'Task not found.');
     header('Location: manage-tasks.php');
     exit;
 }
+
+// Store old status for comparison
+$old_status = $original_task['status'];
+$client_id = $original_task['client_id'];
+$task_title = $original_task['title'];
 
 // Update admin notes
 add_task_notes($task_id, $admin_notes);
@@ -60,17 +66,44 @@ if ($original_task['status'] !== $status) {
     $updated = update_task_status($task_id, $status, $user_id, $role, $remarks);
     
     if ($updated) {
-        set_notification('success', 'Task status updated successfully.');
+        set_flash_notification('success', 'Task status updated successfully.');
         
-        // Notify client if task completed
-        if ($status === 'completed') {
-            // This would be implemented in the notifications module
-            // notify_client($original_task['client_id'], 'Task Completed', 'Your task has been completed.');
+        // When updating task status to "completed"
+        if ($status === 'completed' && $old_status !== 'completed') {
+            // Get client information
+            $client = get_client_by_id($client_id);
             
-            set_notification('info', 'Client has been notified about the completed task.');
+            // Add notification for client
+            add_notification(
+                $client_id,
+                'client',
+                'success',
+                'Task Completed',
+                'Your task "' . $task_title . '" has been completed.',
+                '/client/tasks/history.php?task_id=' . $task_id,
+                ['task_id' => $task_id]
+            );
+            
+            // Send email notification to client
+            trigger_email_event(
+                'task_completed',
+                [
+                    'title' => 'Task Completed',
+                    'client_name' => $client['name'],
+                    'task_title' => $task_title,
+                    'admin_name' => $_SESSION['user_name'],
+                    'completion_date' => date('F j, Y'),
+                    'task_url' => 'https://' . $_SERVER['HTTP_HOST'] . '/client/tasks/history.php?task_id=' . $task_id
+                ],
+                $client['email'],
+                $client['name']
+            );
+            
+            // Show success message
+            set_flash_notification('success', 'Task marked as completed and client notified.');
         }
     } else {
-        set_notification('error', 'Failed to update task status.');
+        set_flash_notification('error', 'Failed to update task status.');
     }
 }
 
@@ -99,12 +132,12 @@ if (!empty($_FILES['task_files']['name'][0])) {
         if ($result['success']) {
             $upload_success++;
         } else {
-            set_notification('error', 'File upload error: ' . $result['message']);
+            set_flash_notification('error', 'File upload error: ' . $result['message']);
         }
     }
     
     if ($upload_success > 0) {
-        set_notification('success', $upload_success . ' file(s) uploaded successfully.');
+        set_flash_notification('success', $upload_success . ' file(s) uploaded successfully.');
     }
 }
 
