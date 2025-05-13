@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Business Care Plan Assigned</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333333; background-color: #f5f5f5;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <!-- Header -->
+        <tr>
+            <td align="center" bgcolor="#fd7e14" style="padding: 20px 0; border-radius: 4px 4px 0 0;">
+                <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: bold;">New Business Care Plan Assigned</h1>
+            </td>
+        </tr>
+        
+        <!-- Content -->
+        <tr>
+            <td style="padding: 20px 30px;">
+                <p style="margin-top: 0;">Dear {{client_name}},</p>
+                
+                <p>A new Business Care Plan has been assigned to your account.</p>
+                
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 20px 0; background-color: #f9f9f9; border-radius: 4px; padding: 15px;">
+                    <tr>
+                        <td style="padding-bottom: 10px;">
+                            <strong style="display: inline-block; width: 120px;">Plan Name:</strong> {{plan_name}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-bottom: 10px;">
+                            <strong style="display: inline-block; width: 120px;">Tier:</strong> 
+                            <span style="display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 12px; 
+                                {% if plan_tier == 'Premium' %}
+                                    background-color: #f8f9fa; color: #212529; border: 1px solid #gold;
+                                {% elseif plan_tier == 'Standard' %}
+                                    background-color: #e9ecef; color: #495057;
+                                {% else %}
+                                    background-color: #dee2e6; color: #495057;
+                                {% endif %}
+                            ">
+                                {{plan_tier}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-bottom: 10px;">
+                            <strong style="display: inline-block; width: 120px;">Effective Date:</strong> {{effective_date}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-bottom: 10px;">
+                            <strong style="display: inline-block; width: 120px;">Services:</strong><br>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                {{plan_services}}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px; border-top: 1px solid #eeeeee;">
+                            <strong>Details:</strong><br>
+                            {{plan_details}}
+                        </td>
+                    </tr>
+                </table>
+                
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="center">
+                            <a href="{{plan_url}}" style="display: inline-block; padding: 10px 25px; background-color: #fd7e14; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold;">View Plan Details</a>
+                        </td>
+                    </tr>
+                </table>
+                
+                <p style="margin-top: 30px;">Thank you for choosing Backsure Global Support for your business needs. Please let us know if you have any questions about your new plan.</p>
+                
+                <p>Best regards,<br>Backsure Global Support Team</p>
+            </td>
+        </tr>
+        
+        <!-- Footer -->
+        <tr>
+            <td align="center" style="padding: 20px 30px; border-top: 1px solid #eeeeee; font-size: 12px; color: #777777;">
+                <p style="margin: 0;">&copy; {{current_year}} Backsure Global Support. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
