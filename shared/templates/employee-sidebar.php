@@ -14,7 +14,7 @@ $employee_menu_items[] = [
     'id' => 'dashboard',
     'title' => 'Dashboard',
     'icon' => 'fas fa-tachometer-alt',
-    'url' => '/employee/dashboard.php'
+    'url' => '/groundd/employee/dashboard.php'
 ];
 
 // PHASE 4: Dedicated Employee Model - Client Management
@@ -22,7 +22,7 @@ $employee_menu_items[] = [
     'id' => 'clients',
     'title' => 'My Clients',
     'icon' => 'fas fa-users',
-    'url' => '/employee/assigned-clients.php'
+    'url' => '/groundd/employee/assigned-clients.php'
 ];
 
 // PHASE 4: Dedicated Employee Model - Client Data Access
@@ -35,17 +35,17 @@ $employee_menu_items[] = [
         [
             'id' => 'client_crm',
             'title' => 'CRM Data',
-            'url' => '/employee/client-data/crm.php'
+            'url' => '/groundd/employee/client-data/crm.php'
         ],
         [
             'id' => 'client_azure',
             'title' => 'Azure Storage',
-            'url' => '/employee/client-data/azure.php'
+            'url' => '/groundd/employee/client-data/azure.php'
         ],
         [
             'id' => 'client_files',
             'title' => 'Client Files',
-            'url' => '/employee/client-data/files.php'
+            'url' => '/groundd/employee/client-data/files.php'
         ]
     ]
 ];
@@ -56,7 +56,7 @@ $employee_menu_items[] = [
     'id' => 'assigned_tasks',
     'title' => 'Assigned Tasks',
     'icon' => 'fas fa-clipboard-list',
-    'url' => '/employee/assigned-tasks/tasks.php'
+    'url' => '/groundd/employee/assigned-tasks/tasks.php'
 ];
 
 // PHASE 6: Business Care Plans - Insights Management
@@ -65,7 +65,7 @@ $employee_menu_items[] = [
     'id' => 'client_insights',
     'title' => 'Client Insights',
     'icon' => 'fas fa-chart-line',
-    'url' => '/employee/client-insights/manage.php'
+    'url' => '/groundd/employee/client-insights/manage.php'
 ];
 
 // PHASE 6: Business Care Plans - Document Management
@@ -74,7 +74,7 @@ $employee_menu_items[] = [
     'id' => 'client_documents',
     'title' => 'Client Documents',
     'icon' => 'fas fa-file-alt',
-    'url' => '/employee/client-documents/review.php'
+    'url' => '/groundd/employee/client-documents/review.php'
 ];
 
 // Time Tracking (all phases)
@@ -87,14 +87,28 @@ $employee_menu_items[] = [
         [
             'id' => 'time_log',
             'title' => 'My Time Log',
-            'url' => '/employee/time-tracking/time-log.php'
+            'url' => '/groundd/employee/time-tracking/time-log.php'
         ],
         [
             'id' => 'time_report',
             'title' => 'Reports',
-            'url' => '/employee/time-tracking/reports.php'
+            'url' => '/groundd/employee/time-tracking/reports.php'
         ]
     ]
+];
+
+// PHASE 8: Add Time Tracking direct links (NEW)
+$employee_menu_items[] = [
+    'id' => 'time_tracker',
+    'title' => 'Time Tracker',
+    'icon' => 'fas fa-stopwatch',
+    'url' => '/groundd/employee/time-tracking/timer.php'
+];
+$employee_menu_items[] = [
+    'id' => 'time_history',
+    'title' => 'Time History',
+    'icon' => 'fas fa-history',
+    'url' => '/groundd/employee/time-tracking/history.php'
 ];
 
 // Support Tickets (all phases)
@@ -107,17 +121,17 @@ $employee_menu_items[] = [
         [
             'id' => 'my_tickets',
             'title' => 'My Tickets',
-            'url' => '/employee/support/my-tickets.php'
+            'url' => '/groundd/employee/support/my-tickets.php'
         ],
         [
             'id' => 'client_tickets',
             'title' => 'Client Tickets',
-            'url' => '/employee/support/client-tickets.php'
+            'url' => '/groundd/employee/support/client-tickets.php'
         ],
         [
             'id' => 'new_ticket',
             'title' => 'Create Ticket',
-            'url' => '/employee/support/new-ticket.php'
+            'url' => '/groundd/employee/support/new-ticket.php'
         ]
     ]
 ];
@@ -127,7 +141,7 @@ $employee_menu_items[] = [
     'id' => 'profile',
     'title' => 'My Profile',
     'icon' => 'fas fa-user',
-    'url' => '/employee/profile.php'
+    'url' => '/groundd/employee/profile.php'
 ];
 
 // Notifications (all phases)
@@ -135,7 +149,7 @@ $employee_menu_items[] = [
     'id' => 'notifications',
     'title' => 'Notifications',
     'icon' => 'fas fa-bell',
-    'url' => '/employee/notifications.php'
+    'url' => '/groundd/employee/notifications.php'
 ];
 
 // Add hook for additional menu items
@@ -151,7 +165,7 @@ $current_page = isset($current_page) ? $current_page : '';
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-header">
-        <img src="/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
+        <img src="/groundd/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
         <div class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </div>
@@ -194,7 +208,7 @@ $current_page = isset($current_page) ? $current_page : '';
     </div>
     
     <div class="sidebar-footer">
-        <a href="/logout.php" class="btn btn-logout">
+        <a href="/groundd/logout.php" class="btn btn-logout">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
     </div>
