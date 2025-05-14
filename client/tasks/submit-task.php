@@ -9,6 +9,7 @@ require_once '../../shared/auth/admin-auth.php';
 require_once '../../shared/tasks/task-functions.php';
 require_once '../../shared/utils/notifications.php';
 require_once '../../shared/events/email-events.php';
+require_once '../../shared/user-functions.php';
 
 // Ensure client is logged in and has the client role
 require_admin_auth();
