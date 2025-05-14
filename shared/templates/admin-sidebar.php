@@ -2,64 +2,334 @@
 /**
  * Admin Sidebar Template
  * 
- * Sidebar navigation for different user roles.
+ * Complete sidebar navigation for admin users including all phases (1-6)
  */
 
-// Get current user role
-$user_role = $_SESSION['user_role'] ?? '';
+// Initialize the menu items array
+$admin_menu_items = [];
 
-// Define menu items based on role
-$menu_items = [];
+// PHASE 1: System Foundation
+// Dashboard
+$admin_menu_items[] = [
+    'id' => 'dashboard',
+    'title' => 'Dashboard',
+    'icon' => 'fas fa-tachometer-alt',
+    'url' => '/admin/dashboard.php'
+];
 
-switch ($user_role) {
-    case 'admin':
-        $menu_items = [
-            ['id' => 'dashboard', 'title' => 'Dashboard', 'icon' => 'bi-speedometer2', 'url' => '/admin/dashboard.php'],
-            ['id' => 'tasks', 'title' => 'Tasks', 'icon' => 'bi-check2-square', 'url' => '/admin/tasks/'],
-            ['id' => 'clients', 'title' => 'Clients', 'icon' => 'bi-people', 'url' => '/admin/clients/'],
-            ['id' => 'employees', 'title' => 'Employees', 'icon' => 'bi-person-badge', 'url' => '/admin/employees/'],
-            ['id' => 'plans', 'title' => 'Business Plans', 'icon' => 'bi-clipboard-check', 'url' => '/admin/plans/'],
-            ['id' => 'support', 'title' => 'Support Desk', 'icon' => 'bi-headset', 'url' => '/admin/support/'],
-            ['id' => 'settings', 'title' => 'Settings', 'icon' => 'bi-gear', 'url' => '/admin/settings/'],
-        ];
-        break;
-        
-    case 'client':
-        $menu_items = [
-            ['id' => 'dashboard', 'title' => 'Dashboard', 'icon' => 'bi-speedometer2', 'url' => '/client/dashboard.php'],
-            ['id' => 'tasks', 'title' => 'Tasks', 'icon' => 'bi-check2-square', 'url' => '/client/tasks/'],
-            ['id' => 'uploads', 'title' => 'Uploads', 'icon' => 'bi-cloud-upload', 'url' => '/client/uploads/'],
-            ['id' => 'plans', 'title' => 'My Plan', 'icon' => 'bi-clipboard-check', 'url' => '/client/plans/'],
-            ['id' => 'support', 'title' => 'Support', 'icon' => 'bi-headset', 'url' => '/client/support/'],
-        ];
-        break;
-        
-    case 'employee':
-        $menu_items = [
-            ['id' => 'dashboard', 'title' => 'Dashboard', 'icon' => 'bi-speedometer2', 'url' => '/employee/dashboard.php'],
-            ['id' => 'assigned-tasks', 'title' => 'Assigned Tasks', 'icon' => 'bi-check2-square', 'url' => '/employee/assigned-tasks/'],
-            ['id' => 'time-tracking', 'title' => 'Time Tracking', 'icon' => 'bi-clock', 'url' => '/employee/time-tracking/'],
-            ['id' => 'support', 'title' => 'Support', 'icon' => 'bi-headset', 'url' => '/employee/support/'],
-        ];
-        break;
-        
-    default:
-        // Should not reach here, but just in case
-        $menu_items = [
-            ['id' => 'dashboard', 'title' => 'Dashboard', 'icon' => 'bi-speedometer2', 'url' => '/dashboard.php'],
-        ];
+// User Management
+$admin_menu_items[] = [
+    'id' => 'users',
+    'title' => 'User Management',
+    'icon' => 'fas fa-users',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'all_users',
+            'title' => 'All Users',
+            'url' => '/admin/users/all-users.php'
+        ],
+        [
+            'id' => 'add_user',
+            'title' => 'Add New User',
+            'url' => '/admin/users/add-user.php'
+        ],
+        [
+            'id' => 'roles',
+            'title' => 'Roles & Permissions',
+            'url' => '/admin/users/roles.php'
+        ]
+    ]
+];
+
+// PHASE 2: Settings Management System
+$admin_menu_items[] = [
+    'id' => 'settings',
+    'title' => 'Settings',
+    'icon' => 'fas fa-cog',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'general_settings',
+            'title' => 'General Settings',
+            'url' => '/admin/settings/admin-settings.php'
+        ],
+        [
+            'id' => 'seo_settings',
+            'title' => 'SEO Settings',
+            'url' => '/admin/settings/admin-seo.php'
+        ],
+        [
+            'id' => 'email_settings',
+            'title' => 'Email Settings',
+            'url' => '/admin/settings/admin-email-settings.php'
+        ],
+        [
+            'id' => 'email_templates',
+            'title' => 'Email Templates',
+            'url' => '/admin/settings/admin-email-templates.php'
+        ],
+        [
+            'id' => 'notification_settings',
+            'title' => 'Notification Settings',
+            'url' => '/admin/settings/admin-notification-settings.php'
+        ],
+        [
+            'id' => 'chat_settings',
+            'title' => 'Chat Settings',
+            'url' => '/admin/settings/admin-chat-settings.php'
+        ]
+    ]
+];
+
+// PHASE 3: Media Library
+$admin_menu_items[] = [
+    'id' => 'media',
+    'title' => 'Media Library',
+    'icon' => 'fas fa-images',
+    'url' => '/admin/media/media-library.php'
+];
+
+// PHASE 4: Dedicated Employee Model
+$admin_menu_items[] = [
+    'id' => 'dedicated_employee',
+    'title' => 'Employee Model',
+    'icon' => 'fas fa-user-tie',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'assign_employee',
+            'title' => 'Assign Employees',
+            'url' => '/admin/assign-employee.php'
+        ],
+        [
+            'id' => 'client_crm',
+            'title' => 'CRM Settings',
+            'url' => '/admin/client-crm.php'
+        ],
+        [
+            'id' => 'azure_storage',
+            'title' => 'Azure Storage',
+            'url' => '/admin/azure-storage.php'
+        ],
+        [
+            'id' => 'employee_reports',
+            'title' => 'Employee Reports',
+            'url' => '/admin/employee-reports.php'
+        ]
+    ]
+];
+
+// PHASE 5: On-Demand Service Support
+$admin_menu_items[] = [
+    'id' => 'tasks',
+    'title' => 'On-Demand Tasks',
+    'icon' => 'fas fa-tasks',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'manage_tasks',
+            'title' => 'Manage Tasks',
+            'url' => '/admin/tasks/manage-tasks.php'
+        ],
+        [
+            'id' => 'task_reports',
+            'title' => 'Task Reports',
+            'url' => '/admin/tasks/reports.php'
+        ]
+    ]
+];
+
+// PHASE 6: Business Care Plans
+$admin_menu_items[] = [
+    'id' => 'plans',
+    'title' => 'Business Care Plans',
+    'icon' => 'fas fa-cubes',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'manage_plans',
+            'title' => 'Manage Plans',
+            'url' => '/admin/plans/manage.php'
+        ],
+        [
+            'id' => 'plan_services',
+            'title' => 'Services',
+            'url' => '/admin/plans/services.php'
+        ],
+        [
+            'id' => 'plan_documents',
+            'title' => 'Documents',
+            'url' => '/admin/plans/documents.php'
+        ],
+        [
+            'id' => 'plan_insights',
+            'title' => 'Insights',
+            'url' => '/admin/plans/insights.php'
+        ]
+    ]
+];
+
+// PHASE 6: Integrations
+$admin_menu_items[] = [
+    'id' => 'integrations',
+    'title' => 'Integrations',
+    'icon' => 'fas fa-plug',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'api_config',
+            'title' => 'API Settings',
+            'url' => '/admin/integrations/api-config.php'
+        ],
+        [
+            'id' => 'zoho_integration',
+            'title' => 'Zoho Integration',
+            'url' => '/admin/integrations/zoho.php'
+        ],
+        [
+            'id' => 'tally_integration',
+            'title' => 'Tally Integration',
+            'url' => '/admin/integrations/tally.php'
+        ],
+        [
+            'id' => 'custom_integration',
+            'title' => 'Custom Integrations',
+            'url' => '/admin/integrations/custom.php'
+        ]
+    ]
+];
+
+// Support Desk (All Phases)
+$admin_menu_items[] = [
+    'id' => 'support',
+    'title' => 'Support Desk',
+    'icon' => 'fas fa-headset',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'all_tickets',
+            'title' => 'All Tickets',
+            'url' => '/admin/support/all-tickets.php'
+        ],
+        [
+            'id' => 'pending_tickets',
+            'title' => 'Pending Tickets',
+            'url' => '/admin/support/pending-tickets.php'
+        ],
+        [
+            'id' => 'ticket_categories',
+            'title' => 'Categories',
+            'url' => '/admin/support/ticket-categories.php'
+        ]
+    ]
+];
+
+// Analytics
+$admin_menu_items[] = [
+    'id' => 'analytics',
+    'title' => 'Analytics',
+    'icon' => 'fas fa-chart-bar',
+    'url' => '/admin/analytics.php'
+];
+
+// System Tools (Admin Utilities)
+$admin_menu_items[] = [
+    'id' => 'tools',
+    'title' => 'System Tools',
+    'icon' => 'fas fa-tools',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'system_logs',
+            'title' => 'System Logs',
+            'url' => '/admin/tools/system-logs.php'
+        ],
+        [
+            'id' => 'activity_logs',
+            'title' => 'Activity Logs',
+            'url' => '/admin/tools/activity-logs.php'
+        ],
+        [
+            'id' => 'system_backup',
+            'title' => 'Backup & Restore',
+            'url' => '/admin/tools/backup.php'
+        ]
+    ]
+];
+
+// Add hook for additional menu items
+if (function_exists('add_admin_menu_items')) {
+    add_admin_menu_items($admin_menu_items);
 }
+
+// Get the current page to highlight the active menu item
+$current_script = basename($_SERVER['SCRIPT_NAME']);
+$current_page = isset($current_page) ? $current_page : '';
 ?>
 
-<div class="position-sticky pt-3 sidebar-sticky">
-    <ul class="nav flex-column">
-        <?php foreach ($menu_items as $item): ?>
-            <li class="nav-item">
-                <a class="nav-link <?php echo ($active_page === $item['id']) ? 'active' : ''; ?>" href="<?php echo $item['url']; ?>">
-                    <i class="bi <?php echo $item['icon']; ?>"></i>
-                    <?php echo htmlspecialchars($item['title']); ?>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <img src="/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
+        <div class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+    
+    <div class="sidebar-menu">
+        <ul class="nav flex-column">
+            <?php foreach ($admin_menu_items as $menu_item): ?>
+                <?php 
+                $has_submenu = isset($menu_item['submenu']) && !empty($menu_item['submenu']);
+                $is_active = ($current_page === $menu_item['id'] || 
+                             ($has_submenu && check_submenu_active($menu_item['submenu'], $current_page)));
+                ?>
+                <li class="nav-item <?php echo $has_submenu ? 'has-submenu' : ''; ?> <?php echo $is_active ? 'active' : ''; ?>">
+                    <a class="nav-link" href="<?php echo $has_submenu ? '#' : $menu_item['url']; ?>" 
+                       <?php echo $has_submenu ? 'data-bs-toggle="collapse" data-bs-target="#submenu-'.$menu_item['id'].'"' : ''; ?>>
+                        <i class="<?php echo $menu_item['icon']; ?> fa-fw"></i>
+                        <span><?php echo $menu_item['title']; ?></span>
+                        <?php if ($has_submenu): ?>
+                            <i class="fas fa-chevron-down submenu-arrow"></i>
+                        <?php endif; ?>
+                    </a>
+                    
+                    <?php if ($has_submenu): ?>
+                        <div class="collapse <?php echo $is_active ? 'show' : ''; ?>" id="submenu-<?php echo $menu_item['id']; ?>">
+                            <ul class="nav flex-column submenu">
+                                <?php foreach ($menu_item['submenu'] as $submenu_item): ?>
+                                    <li class="nav-item <?php echo $current_page === $submenu_item['id'] ? 'active' : ''; ?>">
+                                        <a class="nav-link" href="<?php echo $submenu_item['url']; ?>">
+                                            <span><?php echo $submenu_item['title']; ?></span>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    
+    <div class="sidebar-footer">
+        <a href="/logout.php" class="btn btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
 </div>
+
+<?php
+/**
+ * Helper function to check if any submenu item is active
+ */
+function check_submenu_active($submenu, $current_page) {
+    foreach ($submenu as $item) {
+        if ($item['id'] === $current_page) {
+            return true;
+        }
+    }
+    return false;
+}
+?>
