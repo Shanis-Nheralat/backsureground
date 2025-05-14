@@ -14,7 +14,7 @@ $admin_menu_items[] = [
     'id' => 'dashboard',
     'title' => 'Dashboard',
     'icon' => 'fas fa-tachometer-alt',
-    'url' => '/admin/dashboard.php'
+    'url' => '/groundd/admin/dashboard.php'
 ];
 
 // User Management
@@ -27,17 +27,17 @@ $admin_menu_items[] = [
         [
             'id' => 'all_users',
             'title' => 'All Users',
-            'url' => '/admin/users/all-users.php'
+            'url' => '/groundd/admin/users/all-users.php'
         ],
         [
             'id' => 'add_user',
             'title' => 'Add New User',
-            'url' => '/admin/users/add-user.php'
+            'url' => '/groundd/admin/users/add-user.php'
         ],
         [
             'id' => 'roles',
             'title' => 'Roles & Permissions',
-            'url' => '/admin/users/roles.php'
+            'url' => '/groundd/admin/users/roles.php'
         ]
     ]
 ];
@@ -52,32 +52,32 @@ $admin_menu_items[] = [
         [
             'id' => 'general_settings',
             'title' => 'General Settings',
-            'url' => '/admin/settings/admin-settings.php'
+            'url' => '/groundd/admin/settings/admin-settings.php'
         ],
         [
             'id' => 'seo_settings',
             'title' => 'SEO Settings',
-            'url' => '/admin/settings/admin-seo.php'
+            'url' => '/groundd/admin/settings/admin-seo.php'
         ],
         [
             'id' => 'email_settings',
             'title' => 'Email Settings',
-            'url' => '/admin/settings/admin-email-settings.php'
+            'url' => '/groundd/admin/settings/admin-email-settings.php'
         ],
         [
             'id' => 'email_templates',
             'title' => 'Email Templates',
-            'url' => '/admin/settings/admin-email-templates.php'
+            'url' => '/groundd/admin/settings/admin-email-templates.php'
         ],
         [
             'id' => 'notification_settings',
             'title' => 'Notification Settings',
-            'url' => '/admin/settings/admin-notification-settings.php'
+            'url' => '/groundd/admin/settings/admin-notification-settings.php'
         ],
         [
             'id' => 'chat_settings',
             'title' => 'Chat Settings',
-            'url' => '/admin/settings/admin-chat-settings.php'
+            'url' => '/groundd/admin/settings/admin-chat-settings.php'
         ]
     ]
 ];
@@ -87,7 +87,7 @@ $admin_menu_items[] = [
     'id' => 'media',
     'title' => 'Media Library',
     'icon' => 'fas fa-images',
-    'url' => '/admin/media/media-library.php'
+    'url' => '/groundd/admin/media/media-library.php'
 ];
 
 // PHASE 4: Dedicated Employee Model
@@ -100,22 +100,22 @@ $admin_menu_items[] = [
         [
             'id' => 'assign_employee',
             'title' => 'Assign Employees',
-            'url' => '/admin/assign-employee.php'
+            'url' => '/groundd/admin/assign-employee.php'
         ],
         [
             'id' => 'client_crm',
             'title' => 'CRM Settings',
-            'url' => '/admin/client-crm.php'
+            'url' => '/groundd/admin/client-crm.php'
         ],
         [
             'id' => 'azure_storage',
             'title' => 'Azure Storage',
-            'url' => '/admin/azure-storage.php'
+            'url' => '/groundd/admin/azure-storage.php'
         ],
         [
             'id' => 'employee_reports',
             'title' => 'Employee Reports',
-            'url' => '/admin/employee-reports.php'
+            'url' => '/groundd/admin/employee-reports.php'
         ]
     ]
 ];
@@ -130,12 +130,12 @@ $admin_menu_items[] = [
         [
             'id' => 'manage_tasks',
             'title' => 'Manage Tasks',
-            'url' => '/admin/tasks/manage-tasks.php'
+            'url' => '/groundd/admin/tasks/manage-tasks.php'
         ],
         [
             'id' => 'task_reports',
             'title' => 'Task Reports',
-            'url' => '/admin/tasks/reports.php'
+            'url' => '/groundd/admin/tasks/reports.php'
         ]
     ]
 ];
@@ -150,22 +150,22 @@ $admin_menu_items[] = [
         [
             'id' => 'manage_plans',
             'title' => 'Manage Plans',
-            'url' => '/admin/plans/manage.php'
+            'url' => '/groundd/admin/plans/manage.php'
         ],
         [
             'id' => 'plan_services',
             'title' => 'Services',
-            'url' => '/admin/plans/services.php'
+            'url' => '/groundd/admin/plans/services.php'
         ],
         [
             'id' => 'plan_documents',
             'title' => 'Documents',
-            'url' => '/admin/plans/documents.php'
+            'url' => '/groundd/admin/plans/documents.php'
         ],
         [
             'id' => 'plan_insights',
             'title' => 'Insights',
-            'url' => '/admin/plans/insights.php'
+            'url' => '/groundd/admin/plans/insights.php'
         ]
     ]
 ];
@@ -180,22 +180,22 @@ $admin_menu_items[] = [
         [
             'id' => 'api_config',
             'title' => 'API Settings',
-            'url' => '/admin/integrations/api-config.php'
+            'url' => '/groundd/admin/integrations/api-config.php'
         ],
         [
             'id' => 'zoho_integration',
             'title' => 'Zoho Integration',
-            'url' => '/admin/integrations/zoho.php'
+            'url' => '/groundd/admin/integrations/zoho.php'
         ],
         [
             'id' => 'tally_integration',
             'title' => 'Tally Integration',
-            'url' => '/admin/integrations/tally.php'
+            'url' => '/groundd/admin/integrations/tally.php'
         ],
         [
             'id' => 'custom_integration',
             'title' => 'Custom Integrations',
-            'url' => '/admin/integrations/custom.php'
+            'url' => '/groundd/admin/integrations/custom.php'
         ]
     ]
 ];
@@ -210,17 +210,17 @@ $admin_menu_items[] = [
         [
             'id' => 'all_tickets',
             'title' => 'All Tickets',
-            'url' => '/admin/support/all-tickets.php'
+            'url' => '/groundd/admin/support/all-tickets.php'
         ],
         [
             'id' => 'pending_tickets',
             'title' => 'Pending Tickets',
-            'url' => '/admin/support/pending-tickets.php'
+            'url' => '/groundd/admin/support/pending-tickets.php'
         ],
         [
             'id' => 'ticket_categories',
             'title' => 'Categories',
-            'url' => '/admin/support/ticket-categories.php'
+            'url' => '/groundd/admin/support/ticket-categories.php'
         ]
     ]
 ];
@@ -230,7 +230,15 @@ $admin_menu_items[] = [
     'id' => 'analytics',
     'title' => 'Analytics',
     'icon' => 'fas fa-chart-bar',
-    'url' => '/admin/analytics.php'
+    'url' => '/groundd/admin/analytics.php'
+];
+
+// PHASE 8: Time Reports (NEW)
+$admin_menu_items[] = [
+    'id' => 'time_reports',
+    'title' => 'Time Reports',
+    'icon' => 'fas fa-clock',
+    'url' => '/groundd/admin/logs/time-report.php'
 ];
 
 // System Tools (Admin Utilities)
@@ -243,17 +251,17 @@ $admin_menu_items[] = [
         [
             'id' => 'system_logs',
             'title' => 'System Logs',
-            'url' => '/admin/tools/system-logs.php'
+            'url' => '/groundd/admin/tools/system-logs.php'
         ],
         [
             'id' => 'activity_logs',
             'title' => 'Activity Logs',
-            'url' => '/admin/tools/activity-logs.php'
+            'url' => '/groundd/admin/tools/activity-logs.php'
         ],
         [
             'id' => 'system_backup',
             'title' => 'Backup & Restore',
-            'url' => '/admin/tools/backup.php'
+            'url' => '/groundd/admin/tools/backup.php'
         ]
     ]
 ];
@@ -271,7 +279,7 @@ $current_page = isset($current_page) ? $current_page : '';
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-header">
-        <img src="/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
+        <img src="/groundd/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
         <div class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </div>
@@ -314,7 +322,7 @@ $current_page = isset($current_page) ? $current_page : '';
     </div>
     
     <div class="sidebar-footer">
-        <a href="/logout.php" class="btn btn-logout">
+        <a href="/groundd/logout.php" class="btn btn-logout">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
     </div>
