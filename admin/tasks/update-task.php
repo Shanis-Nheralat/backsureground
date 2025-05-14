@@ -11,6 +11,7 @@ require_once '../../shared/auth/admin-auth.php';
 require_once '../../shared/tasks/task-functions.php';
 require_once '../../shared/utils/notifications.php';
 require_once '../../shared/events/email-events.php';
+require_once '../../shared/user-functions.php';
 
 // Authentication check
 require_admin_auth();
