@@ -2,7 +2,7 @@
 /**
  * Client Sidebar Template
  * 
- * Displays the sidebar navigation for client users
+ * Complete sidebar navigation for client users
  */
 
 // Initialize the menu items array
@@ -13,63 +13,104 @@ $client_menu_items[] = [
     'id' => 'dashboard',
     'title' => 'Dashboard',
     'icon' => 'fas fa-tachometer-alt',
-    'url' => '/client/dashboard.php'
+    'url' => '/groundd/client/dashboard.php'
 ];
 
-// Phase 5: On-Demand Tasks
+// PHASE 5: On-Demand Tasks
 $client_menu_items[] = [
     'id' => 'tasks',
     'title' => 'Tasks',
-    'icon' => 'fas fa-clipboard-list',
+    'icon' => 'fas fa-tasks',
     'url' => '#',
     'submenu' => [
         [
             'id' => 'submit_task',
             'title' => 'Submit New Task',
-            'url' => '/client/tasks/submit-task.php'
+            'url' => '/groundd/client/tasks/submit-task.php'
         ],
         [
             'id' => 'task_history',
-            'title' => 'My Tasks',
-            'url' => '/client/tasks/history.php'
+            'title' => 'Task History',
+            'url' => '/groundd/client/tasks/history.php'
         ]
     ]
 ];
 
-// Phase 6: Business Care Plans
+// PHASE 4: Dedicated Employee Model
+$client_menu_items[] = [
+    'id' => 'dedicated_support',
+    'title' => 'Dedicated Support',
+    'icon' => 'fas fa-user-tie',
+    'url' => '/groundd/client/dedicated-support.php'
+];
+
+// PHASE 6: Business Care Plans
 $client_menu_items[] = [
     'id' => 'plans',
-    'title' => 'Business Care',
-    'icon' => 'fas fa-chart-line',
+    'title' => 'Business Plans',
+    'icon' => 'fas fa-cubes',
     'url' => '#',
     'submenu' => [
         [
             'id' => 'plan_dashboard',
-            'title' => 'Dashboard',
-            'url' => '/client/plans/dashboard.php'
+            'title' => 'Plan Dashboard',
+            'url' => '/groundd/client/plans/dashboard.php'
         ],
         [
             'id' => 'plan_documents',
-            'title' => 'My Documents',
-            'url' => '/client/plans/documents.php'
+            'title' => 'Documents',
+            'url' => '/groundd/client/plans/documents.php'
+        ],
+        [
+            'id' => 'plan_insights',
+            'title' => 'Insights',
+            'url' => '/groundd/client/plans/insights.php'
         ]
     ]
 ];
 
-// Support
+// Documents & Files
+$client_menu_items[] = [
+    'id' => 'documents',
+    'title' => 'Documents',
+    'icon' => 'fas fa-file-alt',
+    'url' => '/groundd/client/documents.php'
+];
+
+// Support Tickets
 $client_menu_items[] = [
     'id' => 'support',
     'title' => 'Support',
     'icon' => 'fas fa-headset',
-    'url' => '/client/support/my-tickets.php'
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'my_tickets',
+            'title' => 'My Tickets',
+            'url' => '/groundd/client/support/my-tickets.php'
+        ],
+        [
+            'id' => 'new_ticket',
+            'title' => 'Submit Ticket',
+            'url' => '/groundd/client/support/new-ticket.php'
+        ]
+    ]
 ];
 
-// Profile
+// Profile & Settings
 $client_menu_items[] = [
     'id' => 'profile',
     'title' => 'My Profile',
     'icon' => 'fas fa-user',
-    'url' => '/client/profile.php'
+    'url' => '/groundd/client/profile.php'
+];
+
+// Notifications (from Phase 7)
+$client_menu_items[] = [
+    'id' => 'notifications',
+    'title' => 'Notifications',
+    'icon' => 'fas fa-bell',
+    'url' => '/groundd/client/notifications.php'
 ];
 
 // Add hook for additional menu items
@@ -85,7 +126,7 @@ $current_page = isset($current_page) ? $current_page : '';
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-header">
-        <img src="/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
+        <img src="/groundd/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
         <div class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </div>
@@ -106,44 +147,3 @@ $current_page = isset($current_page) ? $current_page : '';
                         <span><?php echo $menu_item['title']; ?></span>
                         <?php if ($has_submenu): ?>
                             <i class="fas fa-chevron-down submenu-arrow"></i>
-                        <?php endif; ?>
-                    </a>
-                    
-                    <?php if ($has_submenu): ?>
-                        <div class="collapse <?php echo $is_active ? 'show' : ''; ?>" id="submenu-<?php echo $menu_item['id']; ?>">
-                            <ul class="nav flex-column submenu">
-                                <?php foreach ($menu_item['submenu'] as $submenu_item): ?>
-                                    <li class="nav-item <?php echo $current_page === $submenu_item['id'] ? 'active' : ''; ?>">
-                                        <a class="nav-link" href="<?php echo $submenu_item['url']; ?>">
-                                            <span><?php echo $submenu_item['title']; ?></span>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-    
-    <div class="sidebar-footer">
-        <a href="/logout.php" class="btn btn-logout">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-    </div>
-</div>
-
-<?php
-/**
- * Helper function to check if any submenu item is active
- */
-function check_submenu_active($submenu, $current_page) {
-    foreach ($submenu as $item) {
-        if ($item['id'] === $current_page) {
-            return true;
-        }
-    }
-    return false;
-}
-?>
