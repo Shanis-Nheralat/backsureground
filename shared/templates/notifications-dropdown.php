@@ -1,7 +1,7 @@
 <?php
 /**
  * Notification dropdown component for header
- * Include this in admin-header.php, client-header.php, etc.
+ * Include this in admin-header.php, employee-header.php,client-header.php, etc.
  */
 
 // Get current user role and ID
