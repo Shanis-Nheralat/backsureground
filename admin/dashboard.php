@@ -37,7 +37,7 @@ $recent_logins = db_query(
 // Latest activity logs (last 10)
 $activity_logs = db_query(
     "SELECT * FROM admin_activity_log 
-     ORDER BY timestamp DESC 
+     ORDER BY created_at DESC 
      LIMIT 10"
 );
 

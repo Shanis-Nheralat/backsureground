@@ -9,10 +9,10 @@ $current_user_id = $_SESSION['user_id'] ?? 0;
 $current_user_role = $_SESSION['user_role'] ?? '';
 
 // Get unread notifications count
-$unread_count = get_unread_count($current_user_id, $current_user_role);
+$unread_count = 0;//get_unread_count($current_user_id, $current_user_role);
 
 // Get latest notifications (limit to 5)
-$notifications = get_notifications($current_user_id, $current_user_role, true, 5);
+$notifications = [];//get_notifications($current_user_id, $current_user_role, true, 5);
 ?>
 
 <div class="dropdown">

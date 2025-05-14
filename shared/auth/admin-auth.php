@@ -166,13 +166,13 @@ function login($username, $password) {
         );
         
         // Log successful login
-        log_action('login', "User {$user['username']} logged in");
+     //   log_action('login', "User {$user['username']} logged in");
         
         return true;
     }
     
     // Incorrect password
-    log_action('failed_login', "Failed login attempt for {$username}");
+    //log_action('failed_login', "Failed login attempt for {$username}");
     return false;
 }
 
