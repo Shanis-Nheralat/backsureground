@@ -152,6 +152,31 @@ $employee_menu_items[] = [
     'url' => '/groundd/employee/notifications.php'
 ];
 
+// Support Tickets (all phases)
+$employee_menu_items[] = [
+    'id' => 'support',
+    'title' => 'Support',
+    'icon' => 'fas fa-headset',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'my_tickets',
+            'title' => 'My Tickets',
+            'url' => '/groundd/employee/support/my-tickets.php'
+        ],
+        [
+            'id' => 'client_tickets',
+            'title' => 'Client Tickets',
+            'url' => '/groundd/employee/support/client-tickets.php'
+        ],
+        [
+            'id' => 'new_ticket',
+            'title' => 'Create Ticket',
+            'url' => '/groundd/employee/support/new-ticket.php'
+        ]
+    ]
+];
+
 // Add hook for additional menu items
 if (function_exists('add_employee_menu_items')) {
     add_employee_menu_items($employee_menu_items);
