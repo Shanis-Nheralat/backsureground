@@ -9,6 +9,7 @@
 require_once '../shared/db.php';
 require_once '../shared/auth/admin-auth.php';
 require_once '../shared/csrf/csrf-functions.php';
+require_once '../shared/tasks/task-functions.php'; // <- New line added
 
 // Ensure user is authenticated and has client role
 require_role('client');
@@ -22,10 +23,12 @@ $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'];
 
 // This is placeholder data for Phase 1
-// In future phases, this will pull real data from database
-$recent_tasks = []; // Will be populated in Phase 4
-$plan_details = []; // Will be populated in Phase 6
-$support_tickets = []; // Will be populated in Phase 9
+$recent_tasks = [];
+$plan_details = [];
+$support_tickets = [];
+
+// Get task summary for widget (new addition)
+$task_summary = get_dashboard_task_summary('client');
 
 // Include header template
 include_once '../shared/templates/admin-header.php';
@@ -45,6 +48,87 @@ include_once '../shared/templates/admin-header.php';
     </div>
 </div>
 
+<!-- New Task Summary and Recent Activity Section -->
+<div class="row">
+    <!-- Task Summary Widget -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">My Tasks</h6>
+                <a href="/client/tasks/my-tasks.php" class="btn btn-sm btn-primary">View All</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h1 class="display-4"><?php echo $task_summary['pending']['submitted']; ?></h1>
+                                <p class="text-muted mb-0">Submitted</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h1 class="display-4"><?php echo $task_summary['pending']['in_progress']; ?></h1>
+                                <p class="text-muted mb-0">In Progress</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php if ($task_summary['pending']['total'] > 0): ?>
+                    <div class="alert alert-info mb-0">
+                        <p class="mb-1">Task Summary:</p>
+                        <ul class="mb-0">
+                            <?php if ($task_summary['pending']['high_priority'] > 0): ?>
+                            <li><?php echo $task_summary['pending']['high_priority']; ?> high priority task(s)</li>
+                            <?php endif; ?>
+                            <?php if ($task_summary['pending']['overdue'] > 0): ?>
+                            <li><?php echo $task_summary['pending']['overdue']; ?> overdue task(s)</li>
+                            <?php endif; ?>
+                            <?php if ($task_summary['pending']['due_soon'] > 0): ?>
+                            <li><?php echo $task_summary['pending']['due_soon']; ?> task(s) due soon</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-success mb-0">
+                        <p class="mb-0">You have no pending tasks.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="/client/tasks/create-task.php" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Submit New Task
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Widget -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Activity</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="icon-circle bg-success">
+                        <i class="bi bi-check text-white"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div>
+                            <span class="font-weight-bold"><?php echo $task_summary['completed']; ?> tasks completed</span> in the last 7 days
+                        </div>
+                        <div class="small text-muted">View your task history for more details</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rest of original dashboard remains unchanged -->
 <div class="row">
     <!-- Quick Actions -->
     <div class="col-lg-4 mb-4">
@@ -70,7 +154,7 @@ include_once '../shared/templates/admin-header.php';
             </div>
         </div>
     </div>
-    
+
     <!-- Recent Tasks -->
     <div class="col-lg-8 mb-4">
         <div class="card shadow dashboard-card h-100">
@@ -110,10 +194,7 @@ include_once '../shared/templates/admin-header.php';
                                     <tr>
                                         <td><?php echo htmlspecialchars($task['title']); ?></td>
                                         <td>
-                                            <span class="badge bg-<?php 
-                                                echo ($task['status'] === 'completed') ? 'success' : 
-                                                     (($task['status'] === 'in_progress') ? 'warning' : 'info'); 
-                                            ?>">
+                                            <span class="badge bg-<?php echo ($task['status'] === 'completed') ? 'success' : (($task['status'] === 'in_progress') ? 'warning' : 'info'); ?>">
                                                 <?php echo ucfirst(str_replace('_', ' ', $task['status'])); ?>
                                             </span>
                                         </td>
@@ -155,7 +236,7 @@ include_once '../shared/templates/admin-header.php';
             </div>
         </div>
     </div>
-    
+
     <!-- Support Tickets -->
     <div class="col-lg-6 mb-4">
         <div class="card shadow dashboard-card">
@@ -182,7 +263,4 @@ include_once '../shared/templates/admin-header.php';
     </div>
 </div>
 
-<?php 
-// Include footer template
-include_once '../shared/templates/admin-footer.php';
-?>
+<?php include_once '../shared/templates/admin-footer.php'; ?>
