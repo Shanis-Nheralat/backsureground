@@ -1,0 +1,278 @@
+/* Admin-specific Styles */
+
+/* Dashboard cards with border accents */
+.border-left-primary {
+    border-left: 4px solid var(--bs-primary) !important;
+}
+
+.border-left-success {
+    border-left: 4px solid var(--bs-success) !important;
+}
+
+.border-left-info {
+    border-left: 4px solid var(--bs-info) !important;
+}
+
+.border-left-warning {
+    border-left: 4px solid var(--bs-warning) !important;
+}
+
+.border-left-danger {
+    border-left: 4px solid var(--bs-danger) !important;
+}
+
+/* Admin Activity Log */
+.activity-log {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    padding: 0.75rem;
+    border-left: 3px solid transparent;
+    margin-bottom: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.025);
+    border-radius: 0.25rem;
+}
+
+.activity-item.login {
+    border-left-color: var(--bs-success);
+}
+
+.activity-item.logout {
+    border-left-color: var(--bs-secondary);
+}
+
+.activity-item.create {
+    border-left-color: var(--bs-info);
+}
+
+.activity-item.update {
+    border-left-color: var(--bs-warning);
+}
+
+.activity-item.delete {
+    border-left-color: var(--bs-danger);
+}
+
+.activity-item .activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Admin User Management */
+.user-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.user-status {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.25rem;
+}
+
+.user-status.active {
+    background-color: var(--bs-success);
+}
+
+.user-status.inactive {
+    background-color: var(--bs-secondary);
+}
+
+/* Admin Settings */
+.settings-section {
+    margin-bottom: 2rem;
+}
+
+.settings-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+/* Admin File Manager */
+.file-manager {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+}
+
+.file-manager-sidebar {
+    width: 250px;
+    border-right: 1px solid var(--bs-border-color);
+    padding: 1rem 0;
+}
+
+.file-manager-content {
+    flex: 1;
+    padding: 1rem;
+}
+
+.file-manager-filter {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.folder-tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.folder-tree li {
+    padding: 0.25rem 0;
+}
+
+.folder-tree a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: var(--bs-body-color);
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+}
+
+.folder-tree a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.folder-tree a.active {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+.file-item {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.file-item:hover {
+    border-color: var(--bs-primary);
+    background-color: rgba(0, 97, 213, 0.05);
+}
+
+.file-item .file-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--bs-secondary);
+}
+
+.file-item .file-name {
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Phase 10 Admin Activity Logger Styles */
+.admin-extended-log {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.admin-extended-log .filters {
+    background-color: var(--bs-light);
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.log-entry {
+    border-left: 4px solid transparent;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    transition: all 0.2s;
+}
+
+.log-entry:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+}
+
+.log-entry.login {
+    border-left-color: var(--bs-success);
+}
+
+.log-entry.logout {
+    border-left-color: var(--bs-secondary);
+}
+
+.log-entry.create {
+    border-left-color: var(--bs-info);
+}
+
+.log-entry.update {
+    border-left-color: var(--bs-warning);
+}
+
+.log-entry.delete {
+    border-left-color: var(--bs-danger);
+}
+
+.log-entry.access {
+    border-left-color: var(--bs-primary);
+}
+
+.log-entry.settings_change {
+    border-left-color: var(--bs-accent);
+}
+
+/* System Test Styles */
+.test-item {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--bs-border-color);
+}
+
+.test-pass {
+    border-left: 4px solid var(--bs-success);
+}
+
+.test-warning {
+    border-left: 4px solid var(--bs-warning);
+}
+
+.test-fail {
+    border-left: 4px solid var(--bs-danger);
+}
+
+/* Backup Manager */
+.backup-file {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.backup-file .file-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: var(--bs-info);
+}
+
+.backup-file .file-details {
+    flex: 1;
+}
+
+.backup-file .file-actions {
+    margin-left: 1rem;
+}
