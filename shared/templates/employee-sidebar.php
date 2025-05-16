@@ -137,28 +137,19 @@ $employee_menu_items[] = [
 ];
 
 // User Profile & Settings (all phases)
-$employee_menu_items[] = [
-    'id' => 'profile',
-    'title' => 'My Profile',
-    'icon' => 'fas fa-user',
-    'url' => '/groundd/employee/profile.php'
-];
 
-// Notifications (all phases)
-$employee_menu_items[] = [
-    'id' => 'notifications',
-    'title' => 'Notifications',
-    'icon' => 'fas fa-bell',
-    'url' => '/groundd/employee/notifications.php'
-];
-
-// Support Tickets (all phases)
+// PHASE 9: Support Desk
 $employee_menu_items[] = [
     'id' => 'support',
     'title' => 'Support',
     'icon' => 'fas fa-headset',
     'url' => '#',
     'submenu' => [
+        [
+            'id' => 'assigned_tickets',
+            'title' => 'Assigned Tickets',
+            'url' => '/groundd/employee/support/assigned-tickets.php'
+        ],
         [
             'id' => 'my_tickets',
             'title' => 'My Tickets',
@@ -173,6 +164,12 @@ $employee_menu_items[] = [
             'id' => 'new_ticket',
             'title' => 'Create Ticket',
             'url' => '/groundd/employee/support/new-ticket.php'
+        ],
+        [
+            'id' => 'view_ticket',
+            'title' => 'View Ticket',
+            'url' => '/groundd/employee/support/view-ticket.php',
+            'hidden' => true // Hidden from menu but used for active state
         ]
     ]
 ];
