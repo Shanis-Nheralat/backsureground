@@ -316,7 +316,7 @@ $current_page = isset($current_page) ? $current_page : '';
 <!-- Sidebar -->
 <div class="sidebar">
     <div class="sidebar-header">
-        <img src="/groundd/assets/img/logo-white.png" alt="Backsure Global Support" class="logo">
+        <img src="/groundd/assets/img/bsg-icon.png" alt="Backsure Global Support" class="logo">
         <div class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </div>
