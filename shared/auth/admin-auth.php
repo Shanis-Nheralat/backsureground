@@ -1,149 +1,251 @@
 <?php
 /**
- * Cleaned Authentication System
- * Unified and secure authentication for both admin and general users.
+ * Authentication System
+ * 
+ * Manages user authentication, session security, and permissions.
+ * Core of the role-based authentication system.
  */
 
+// Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
+    // Set secure session parameters
     session_start();
 }
 
-// Include database connection
+// Include database connection if not already included
 if (!function_exists('db_query')) {
     require_once __DIR__ . '/../../db.php';
 }
 
 /**
- * Check if user is logged in
+ * Check if a user is logged in
+ * 
+ * @return bool True if user is logged in
  */
 function is_logged_in() {
     return isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
 }
 
 /**
- * Require user authentication
+ * Require authentication to access a page
+ * Redirects to login page if not authenticated
  */
 function require_auth() {
     if (!is_logged_in()) {
+        // Store the requested URL for redirect after login
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+        
+        // Redirect to login page
         header('Location: /login.php');
         exit;
     }
+    
+    // Log activity
     log_action('page_access', $_SERVER['REQUEST_URI']);
 }
 
 /**
  * Check if user has a specific role
+ * 
+ * @param string|array $roles Role or array of roles to check
+ * @return bool True if user has at least one of the specified roles
  */
 function has_role($roles) {
-    if (!is_logged_in()) return false;
-    if (!is_array($roles)) $roles = [$roles];
+    if (!is_logged_in()) {
+        return false;
+    }
+    
+    if (!is_array($roles)) {
+        $roles = [$roles];
+    }
+    
     return in_array($_SESSION['user_role'], $roles);
 }
 
 /**
- * Require a specific role
+ * Require specific role to access a page
+ * Redirects to dashboard if user doesn't have the required role
+ * 
+ * @param string|array $roles Role or array of roles required
  */
 function require_role($roles) {
-    require_auth();
+    require_auth(); // First check if logged in
+    
     if (!has_role($roles)) {
-        log_action('unauthorized_access', 'Required role: ' . (is_array($roles) ? implode(', ', $roles) : $roles));
+        // Log unauthorized access attempt
+        log_action('unauthorized_access', 'Role required: ' . (is_array($roles) ? implode(', ', $roles) : $roles));
+        
+        // Redirect to appropriate dashboard based on user's role
         redirect_to_dashboard();
+        exit;
     }
 }
 
 /**
- * Check user permission
+ * Check if user has a specific permission
+ * 
+ * @param string $permission Permission to check
+ * @return bool True if user has the permission
  */
 function has_permission($permission) {
-    if (!is_logged_in()) return false;
-    if ($_SESSION['user_role'] === 'admin') return true;
-
+    if (!is_logged_in()) {
+        return false;
+    }
+    
+    // Get user role
+    $role = $_SESSION['user_role'];
+    
+    // Admin has all permissions
+    if ($role === 'admin') {
+        return true;
+    }
+    
+    // Check if role has the specific permission
     $query = "SELECT COUNT(*) FROM role_permissions rp
               JOIN roles r ON rp.role_id = r.id
               JOIN permissions p ON rp.permission_id = p.id
               WHERE r.name = ? AND p.name = ?";
-
-    return db_query_value($query, [$_SESSION['user_role'], $permission]) > 0;
+    
+    return db_query_value($query, [$role, $permission]) > 0;
 }
 
 /**
- * Require specific permission
+ * Require specific permission to access a page
+ * Redirects to dashboard if user doesn't have the required permission
+ * 
+ * @param string $permission Permission required
  */
 function require_permission($permission) {
-    require_auth();
+    require_auth(); // First check if logged in
+    
     if (!has_permission($permission)) {
+        // Log unauthorized access attempt
         log_action('permission_denied', 'Permission required: ' . $permission);
+        
+        // Redirect to appropriate dashboard based on user's role
         redirect_to_dashboard();
+        exit;
     }
 }
 
 /**
  * Authenticate user
+ * 
+ * @param string $username Username or email
+ * @param string $password Password
+ * @return bool True on successful login
  */
 function login($username, $password) {
+    // Check if input is email or username
     $field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-    $query = "SELECT * FROM users WHERE $field = ?";
+    
+    // Get user from database
+    $query = "SELECT id, username, password, email, name, role, status, login_attempts, last_attempt_time
+              FROM users WHERE $field = ?";
     $user = db_query_row($query, [$username]);
-
-    if (!$user || $user['status'] !== 'active') return false;
-
+    
+    // If user not found or inactive
+    if (!$user || $user['status'] !== 'active') {
+        return false;
+    }
+    
+    // Verify password
     if (password_verify($password, $user['password'])) {
+        // Set session variables
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_role'] = $user['role'];
-        $_SESSION['last_activity'] = time();
-        $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
-        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-
-        db_update('users', [
-            'login_attempts' => 0,
-            'last_login' => date('Y-m-d H:i:s')
-        ], 'id = ?', [$user['id']]);
-
+        
+        // Reset login attempts
+        db_update('users', 
+            ['login_attempts' => 0, 'last_login' => date('Y-m-d H:i:s')], 
+            'id = ?', 
+            [$user['id']]
+        );
+        
+        // Log successful login
+     //   log_action('login', "User {$user['username']} logged in");
+        
         return true;
     }
-
+    
+    // Incorrect password
+    //log_action('failed_login', "Failed login attempt for {$username}");
     return false;
 }
 
 /**
- * Logout user
+ * Log out the current user
  */
 function logout() {
+    // Log the logout action before destroying the session
     if (is_logged_in()) {
         log_action('logout', "User {$_SESSION['username']} logged out");
     }
-
-    if (isset($_COOKIE['remember_token'])) {
-        db_update('users', ['remember_token' => null, 'token_expiry' => null], 'id = ?', [$_SESSION['user_id']]);
-        setcookie('remember_token', '', time() - 3600, '/', '', true, true);
-    }
-
+    
+    // Destroy session
     session_unset();
     session_destroy();
+    
+    // Redirect to login page
     header('Location: /login.php');
     exit;
 }
 
 /**
- * Redirect to dashboard
+ * Redirect user to appropriate dashboard based on role
  */
 function redirect_to_dashboard() {
-    $role = $_SESSION['user_role'] ?? '';
-    $dashboards = [
-        'admin' => '/admin/dashboard.php',
-        'client' => '/client/dashboard.php',
-        'employee' => '/employee/dashboard.php'
-    ];
-    header('Location: ' . ($dashboards[$role] ?? '/login.php'));
+    if (!is_logged_in()) {
+        header('Location: /login.php');
+        exit;
+    }
+    
+    switch ($_SESSION['user_role']) {
+        case 'admin':
+            header('Location: /admin/dashboard.php');
+            break;
+        case 'client':
+            header('Location: /client/dashboard.php');
+            break;
+        case 'employee':
+            header('Location: /employee/dashboard.php');
+            break;
+        default:
+            header('Location: /login.php');
+    }
     exit;
 }
 
 /**
- * CSRF Protection
+ * Log user action to the activity log
+ * 
+ * @param string $action_type Type of action
+ * @param string $details Details of the action
+ * @param string $resource Resource affected
+ * @param int $resource_id Resource ID
+ */
+function log_action($action_type, $details) {
+    $data = [
+        'action_type' => $action_type,
+        'action_details' => $details,
+        'ip_address' => $_SERVER['REMOTE_ADDR'],
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null
+    ];
+
+    if (is_logged_in()) {
+        $data['admin_id'] = $_SESSION['user_id'];
+    }
+
+    db_insert('admin_activity_log', $data);
+}
+
+/**
+ * Generate CSRF token and store in session
+ * 
+ * @return string CSRF token
  */
 function generate_csrf_token() {
     if (empty($_SESSION['csrf_token'])) {
@@ -152,42 +254,25 @@ function generate_csrf_token() {
     return $_SESSION['csrf_token'];
 }
 
+/**
+ * Verify CSRF token
+ * 
+ * @param string $token Token to verify
+ * @return bool True if token is valid
+ */
 function verify_csrf_token($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-/**
- * Log actions
- */
-function log_action($action_type, $details) {
-    $data = [
-        'action_type' => $action_type,
-        'action_details' => $details,
-        'ip_address' => $_SERVER['REMOTE_ADDR'],
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
-        'admin_id' => $_SESSION['user_id'] ?? null
-    ];
-    db_insert('admin_activity_log', $data);
-}
+// Check for session timeout - will be implemented in Phase 2
+// function check_session_timeout() {}
 
-/**
- * Session Validity Check
- */
-function check_session_validity() {
-    $timeout = intval(get_setting('session_timeout', 30)) * 60;
-    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeout)) {
-        logout();
-        return false;
-    }
-    if (isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== $_SERVER['REMOTE_ADDR']) {
-        logout();
-        return false;
-    }
-    if (isset($_SESSION['user_agent']) && $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
-        logout();
-        return false;
-    }
-    $_SESSION['last_activity'] = time();
-    return true;
-}
+// IP validation - will be implemented in Phase 2
+// function validate_ip() {}
 
+// Remember me functionality - will be implemented in Phase 2
+// function check_remember_me() {}
+// function set_remember_me($user_id) {}
+
+// Brute force protection - will be implemented in Phase 2
+// function check_brute_force($username) {}
