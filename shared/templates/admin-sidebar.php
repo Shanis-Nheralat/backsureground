@@ -266,6 +266,43 @@ $admin_menu_items[] = [
     ]
 ];
 
+// PHASE 9: Support Desk
+$admin_menu_items[] = [
+    'id' => 'support',
+    'title' => 'Support Desk',
+    'icon' => 'fas fa-headset',
+    'url' => '#',
+    'submenu' => [
+        [
+            'id' => 'all_tickets',
+            'title' => 'All Tickets',
+            'url' => '/groundd/admin/support/all-tickets.php'
+        ],
+        [
+            'id' => 'pending_tickets',
+            'title' => 'Pending Tickets',
+            'url' => '/groundd/admin/support/pending-tickets.php'
+        ],
+        [
+            'id' => 'ticket_categories',
+            'title' => 'Categories',
+            'url' => '/groundd/admin/support/ticket-categories.php'
+        ],
+        [
+            'id' => 'ticket_details',
+            'title' => 'Ticket Details',
+            'url' => '/groundd/admin/support/ticket-details.php',
+            'hidden' => true // Hidden from menu but used for active state
+        ],
+        [
+            'id' => 'batch_actions',
+            'title' => 'Batch Actions',
+            'url' => '/groundd/admin/support/batch-actions.php',
+            'hidden' => true // Hidden from menu but used for active state
+        ]
+    ]
+];
+
 // Add hook for additional menu items
 if (function_exists('add_admin_menu_items')) {
     add_admin_menu_items($admin_menu_items);
