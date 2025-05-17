@@ -602,4 +602,78 @@
             bsToast.show();
         }
     };
+
+// Handle sticky action buttons on mobile
+$(document).ready(function() {
+    function setupMobileFeatures() {
+        // Only run on mobile devices
+        if (window.innerWidth > 767) return;
+        
+        // Add data-label attributes to table cells
+        $('.table-responsive-card').each(function() {
+            const headerTexts = [];
+            $(this).find('thead th').each(function() {
+                headerTexts.push($(this).text());
+            });
+            
+            $(this).find('tbody tr').each(function() {
+                $(this).find('td').each(function(i) {
+                    if (headerTexts[i]) {
+                        $(this).attr('data-label', headerTexts[i]);
+                    }
+                });
+            });
+        });
+        
+        // Show floating action button if page has a primary action
+        const primaryAction = $('.btn-primary').not('.mobile-exclude').first();
+        if (primaryAction.length) {
+            const actionText = primaryAction.text().trim();
+            const actionIcon = primaryAction.find('i').length ? 
+                               primaryAction.find('i').prop('outerHTML') : 
+                               '<i class="fas fa-plus"></i>';
+            
+            $('body').append(`
+                <button class="btn btn-primary btn-float" id="mobile-primary-action">
+                    ${actionIcon}
+                </button>
+            `);
+            
+            // Clone action to floating button
+            $('#mobile-primary-action').on('click', function() {
+                primaryAction.click();
+            });
+        }
+        
+        // Add sticky footer for forms with multiple actions
+        const formActions = $('form .btn').not('.mobile-exclude');
+        if (formActions.length > 1) {
+            const actionsContainer = $('<div class="mobile-sticky-actions"></div>');
+            formActions.each(function() {
+                $(this).clone(true).appendTo(actionsContainer);
+            });
+            
+            $('body').append(actionsContainer);
+            
+            // Handle clicks on cloned buttons
+            actionsContainer.find('.btn').each(function(i) {
+                $(this).on('click', function(e) {
+                    e.preventDefault();
+                    formActions.eq(i).click();
+                });
+            });
+            
+            // Add padding to prevent content being hidden behind sticky actions
+            $('body').css('padding-bottom', actionsContainer.outerHeight() + 'px');
+        }
+    }
+    
+    // Run on load
+    setupMobileFeatures();
+    
+    // Run on resize
+    $(window).on('resize', function() {
+        setupMobileFeatures();
+    });
+});
 })();
