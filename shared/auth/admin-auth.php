@@ -19,11 +19,11 @@ function is_logged_in() {
 }
 
 function require_auth() {
-    if (!is_logged_in()) {
-        $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-        header('Location: /login.php');
-        exit;
-    }
+      if (!is_logged_in()) {
+          $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+          header('Location: /login.php');         // absolute path
+          exit;
+      }
     log_action('page_access', $_SERVER['REQUEST_URI']);
 }
 
@@ -107,15 +107,14 @@ function logout() {
     exit;
 }
 
-function redirect_to_dashboard() {
-    if (!is_logged_in()) {
-        header('Location: /login.php');
-        exit;
-    }
-
-    switch ($_SESSION['user_role']) {
-        case 'admin':
-            header('Location: /admin/dashboard.php');
+ function redirect_to_dashboard() {
+     if (!is_logged_in()) {
+         header('Location: /login.php');         // absolute path
+         exit;
+     }
+     switch ($_SESSION['user_role']) {
+         case 'admin':
+             header('Location: /admin/dashboard.php');
             break;
         case 'client':
             header('Location: /client/dashboard.php');
